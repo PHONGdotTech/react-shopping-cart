@@ -1,5 +1,6 @@
 import React, {useContext, useState, useEffect} from 'react';
 import axios from "axios";
+import data from '../data';
 
 import ProductContext from "../contexts/ProductContext";
 
@@ -31,10 +32,10 @@ const Products = props => {
 			age: parseInt(age),
 			height: height
 		}
+		
 		setErrorMsg(""); 
 		axios.post(`https://reqres.in/api/users/`, newThing)
 		.then(res => {
-			console.log(res)
 			setProducts([...products, {
 				title: res.data.name,
 				price: res.data.age
@@ -59,7 +60,7 @@ const Products = props => {
 			console.log(err)
 		})
 	}, [])
-	// console.log("pokemonlist",pokemonList)
+	console.log("PRODUCTS:",products)
 
 	return (
 		<div className="products-container">
@@ -71,18 +72,23 @@ const Products = props => {
 				/>
 			))}
 			<div>
+				
 				<input type="text" onChange={handleNameChanges} placeholder="Name" name="name" value={name} />
 				<input type="text" onChange={handleAgeChanges} placeholder="Age" name="age" value={age} />
 				<input type="text" onChange={handleHeightChanges} placeholder="Height" name="height" value={height} />
 				<button onClick={()=> {name === "" || age === "" || height === "" ? setErrorMsg("Enter fields") : handleSubmit(name, age, height)}}>Submit</button>
+				<button onClick={()=>setProducts([...products, ...data])}>add original product data</button>
 				{errorMsg !== "" && (<div>{errorMsg}</div>)}
 			</div>
-			<div>
-				HELLO
-				{pokemonList.map((pokemon,index) => (
-					<p key={index}>{pokemon.name}</p>
-				))}
-			</div>
+			{products.length ===0 && (
+				<div>
+					HELLO
+					{pokemonList.map((pokemon,index) => (
+						<p key={index}>{pokemon.name}</p>
+					))}
+				</div>
+			)}
+			
 			
 			
 		</div>

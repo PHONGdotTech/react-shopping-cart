@@ -11,7 +11,7 @@ import Products from './components/Products';
 import ShoppingCart from './components/ShoppingCart';
 
 function App() {
-	const [products, setProducts] = useState(data);
+	const [products, setProducts] = useState([]);
 	const [cart, setCart] = useState([]);
 	const [errorMsg, setErrorMsg] = useState("")
 
