@@ -11,8 +11,9 @@ import Products from './components/Products';
 import ShoppingCart from './components/ShoppingCart';
 
 function App() {
-	const [products] = useState(data);
+	const [products, setProducts] = useState(data);
 	const [cart, setCart] = useState([]);
+	const [errorMsg, setErrorMsg] = useState("")
 
 	const addItem = item => {
 		// add the given item to the cart
@@ -20,7 +21,7 @@ function App() {
 	};
 
 	return (
-		<ProductContext.Provider value={{products, addItem}}>
+		<ProductContext.Provider value={{products, setProducts, addItem, errorMsg, setErrorMsg}}>
 			<CartContext.Provider value={cart}>
 				<div className="App">
 					<Navigation />
