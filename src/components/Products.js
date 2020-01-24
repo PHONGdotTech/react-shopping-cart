@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import axios from "axios";
 
 import ProductContext from "../contexts/ProductContext";
@@ -11,6 +11,7 @@ const Products = props => {
 	const [name, setName] = useState("");
 	const [age, setAge] = useState("");
 	const [height, setHeight] = useState("");
+	const [pokemonList, setPokemonList] = useState([]);
 
 	const handleNameChanges = e => {
 			setName([e.target.value])
@@ -47,6 +48,19 @@ const Products = props => {
 		})
 	}
 
+
+	useEffect(()=> {
+		axios
+		.get(`https://pokeapi.co/api/v2/pokemon?limit=10`)
+		.then(res => {
+			setPokemonList(res.data.results);
+		})
+		.catch(err => {
+			console.log(err)
+		})
+	}, [])
+	// console.log("pokemonlist",pokemonList)
+
 	return (
 		<div className="products-container">
 			{products.map(product => (
@@ -63,6 +77,13 @@ const Products = props => {
 				<button onClick={()=> {name === "" || age === "" || height === "" ? setErrorMsg("Enter fields") : handleSubmit(name, age, height)}}>Submit</button>
 				{errorMsg !== "" && (<div>{errorMsg}</div>)}
 			</div>
+			<div>
+				HELLO
+				{pokemonList.map((pokemon,index) => (
+					<p key={index}>{pokemon.name}</p>
+				))}
+			</div>
+			
 			
 		</div>
 	);
